@@ -1,0 +1,12 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests/${workspaceFolderBasename}/",
+        "-p",
+        "*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "files.eol": "\n"
+}

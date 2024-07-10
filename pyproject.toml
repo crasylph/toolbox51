@@ -1,0 +1,35 @@
+[build-system]
+# 使用setuptools作为构建工具
+requires = ["setuptools >= 61", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "toolbox51"
+description = ""
+authors = [
+    {name = "crasylph", email = "crasylph@gmail.com"}
+]
+# license = "file:LICENSE"
+readme = "README.md"
+requires-python = ">=3.10"
+# 项目动态属性"version",将通过setuptools-scm工具进行源代码控制系统的标签或提交信息自动生成项目的版本号
+dynamic = ["version"]
+dependencies = [
+]
+
+[project.optional-dependencies]
+all = [
+]
+
+# 配置项目命令行脚本
+[project.scripts]
+
+# 配置动态版本属性
+[tool.setuptools.dynamic]
+# 自动根据项目中的__version__来填充版本信息
+version = {attr = "toolbox51.__version__"}
+
+# 配置pyright静态类型代码检查工具，帮助发现潜在类型错误
+[tool.pyright]
+# 设置需要进行类型检查的代码目录
+include = ["src", "tests"]

@@ -1,0 +1,23 @@
+__pycache__
+/build/
+/data/
+/dist/
+# /doc/
+# /docs/
+# /scripts/
+/tmp/
+/models/
+/wheel/
+/wheels/
+# /.vscode/
+/.idea/
+/*.iml
+/dev.yaml
+*.egg-info
+
+# 虚拟环境
+/.venv/
+/.conda/
+
+# 日志
+/logs/
