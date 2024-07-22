@@ -43,13 +43,13 @@ def get_logger(name:str):
     else:
         return new_logger(name)
 
-logger = new_logger(__name__, logging.DEBUG)
-logger_relative = new_logger(__name__ + "_relative", logging.DEBUG, use_relative_path=True)
-
-if __name__ == '__main__':
-
-    logger.debug("DEBUG")
-    logger.info("INFO")
-    logger.warning("WARN")
-    logger.error("ERROR")
-    logger.critical("CRITICAL")
+def touch_logger(
+    name:str, 
+    level:int = logging.INFO,
+    use_relative_path:bool = False,
+    use_logfile:bool = False,
+) -> logging.Logger:
+    if(check_logger(name)):
+        return logging.getLogger(name)
+    else:
+        return new_logger(name, level, use_relative_path, use_logfile)

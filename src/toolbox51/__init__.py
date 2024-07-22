@@ -3,10 +3,12 @@ r"""
 """
 
 
-__version__ = "0.0.1dev1"
+__version__ = "0.0.1dev2"
 
 __changelog__ = """\
 ## update history
+- 0.0.1dev2
+    - logger: 暂时移除了即开即用的logger
 - 0.0.1dev1
     - logger: 修改了一些配置方式
 - 0.0.1dev
