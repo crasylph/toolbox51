@@ -2,39 +2,49 @@ import logging
 from pathlib import Path
 
 from ..handlers import get_console_handler, get_logfile_handler
+
+def check_logger(name:str) -> bool:
+    logger_dict = logging.Logger.manager.loggerDict
+    return name in logger_dict
     
-def get_logger(
+def new_logger(
     name:str, 
     level:int = logging.INFO,
-    fmt:str = """ \
-%(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
-""",
-    # datefmt:str = Colors.format("%Y-%m-%d %H:%M:%S", Colors.TIME)
-    datefmt:str = "%Y-%m-%d %H:%M:%S",
     use_relative_path:bool = False,
+    use_logfile:bool = False,
 ) -> logging.Logger:
     
-    logfile_handler = get_logfile_handler(
-        level = level,
-        fmt = fmt,
-        datefmt = datefmt,
-        use_relative_path = use_relative_path,
-    )
-    console_handler = get_console_handler(
-        level = level,
-        fmt = fmt,
-        datefmt = datefmt,
-        use_relative_path = use_relative_path,
-    )
+    fmt = """ \
+%(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
+"""
+    datefmt = "%Y-%m-%d %H:%M:%S"
+    
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    logger.addHandler(logfile_handler)
-    logger.addHandler(console_handler)
+    if(use_logfile):
+        logger.addHandler(get_logfile_handler(
+            level = level,
+            fmt = fmt,
+            datefmt = datefmt,
+            use_relative_path = use_relative_path,
+        ))
+    logger.addHandler(get_console_handler(
+        level = level,
+        fmt = fmt,
+        datefmt = datefmt,
+        use_relative_path = use_relative_path,
+    ))
     return logger
 
-logger = get_logger(__name__, logging.DEBUG)
-logger_relative = get_logger(__name__ + "_relative", logging.DEBUG, use_relative_path=True)
+def get_logger(name:str):
+    if(check_logger(name)):
+        return logging.getLogger(name)
+    else:
+        return new_logger(name)
+
+logger = new_logger(__name__, logging.DEBUG)
+logger_relative = new_logger(__name__ + "_relative", logging.DEBUG, use_relative_path=True)
 
 if __name__ == '__main__':
 

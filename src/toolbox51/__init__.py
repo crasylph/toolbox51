@@ -3,10 +3,12 @@ r"""
 """
 
 
-__version__ = "0.0.1dev"
+__version__ = "0.0.1dev1"
 
 __changelog__ = """\
 ## update history
+- 0.0.1dev1
+    - logger: 修改了一些配置方式
 - 0.0.1dev
     - (new)logger: 基于logging的个人用日志
     - (new)const: 个人用常用常量
