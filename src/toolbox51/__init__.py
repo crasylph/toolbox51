@@ -3,10 +3,12 @@ r"""
 """
 
 
-__version__ = "0.0.1.dev5"
+__version__ = "0.0.1.dev6"
 
 __changelog__ = """\
 ## update history
+- 0.0.1.dev6
+    - (new)lc
 - 0.0.1.dev5
     - (new)string_formaters: 增加了timestamp_formatter
 - 0.0.1.dev4
@@ -24,3 +26,6 @@ __changelog__ = """\
 """
 
 ####################################
+
+
+from .common import const, logger, singleton, string_formatters
