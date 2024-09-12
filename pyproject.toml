@@ -18,7 +18,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-all = [
+section_divider = [
+    "pydantic < 2",
 ]
 
 # 配置项目命令行脚本

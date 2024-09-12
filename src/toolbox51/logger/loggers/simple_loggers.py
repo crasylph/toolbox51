@@ -21,6 +21,7 @@ def new_logger(
     
 
     logger = logging.getLogger(name)
+    # logger.handlers.clear()
     logger.setLevel(level)
     if(use_logfile):
         logger.addHandler(get_logfile_handler(
@@ -53,3 +54,5 @@ def touch_logger(
         return logging.getLogger(name)
     else:
         return new_logger(name, level, use_relative_path, use_logfile)
+    
+    
