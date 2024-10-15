@@ -5,6 +5,7 @@ from .logger import (
 )
 
 from .string_formatters import (
+    str_fmt_type,
     timestamp_formatter,
 )
 
@@ -13,5 +14,5 @@ from .singleton import (
 )
 
 from .types import (
-    id_uint,
+    id_uint, 
 )
