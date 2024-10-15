@@ -16,10 +16,10 @@ class ChainParams(CustomUserType, Generic[InputSettings, InputContent]):
     content: InputContent | None = None
     extra: dict = {}
     
-OutputStatus = TypeVar("OutputStatus")
+OutputInfo = TypeVar("OutputInfo")
 OutputContent = TypeVar("OutputContent")
-class ChainResult(CustomUserType, Generic[OutputStatus, OutputContent]):
-    timestamp: float | None = None
-    status: OutputStatus | None = None
-    content: OutputContent | None = None
+class ChainResult(CustomUserType, Generic[OutputInfo, OutputContent]):
+    timestamp: float
+    info: OutputInfo
+    content: OutputContent
     extra: dict = {}    
