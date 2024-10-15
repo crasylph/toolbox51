@@ -1,8 +1,9 @@
-__all__ = ["timestamp_formatter"]
+__all__ = ["formatter"]
 
 import functools
+from typing import Any, Callable
 
-def timestamp_message(timestamp: float, message: str):
+def message(timestamp: float, message: Any) -> str:
     return f"{timestamp} | {message}"
-def timestamp_formatter(timestamp: float):
-    return functools.partial(timestamp_message, timestamp)
+def formatter(timestamp: float) -> Callable[[Any], str]:
+    return functools.partial(message, timestamp)

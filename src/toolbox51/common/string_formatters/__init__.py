@@ -1,1 +1,1 @@
-from .timestamp_formatter import timestamp_formatter
+from .timestamp_formatter import formatter as timestamp_formatter
