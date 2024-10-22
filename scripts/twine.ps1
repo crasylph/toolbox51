@@ -9,7 +9,7 @@ $DebugPreference = "Continue"
 
 # 根据版本号构建文件路径
 # $whlFile = "dist/toolbox51-$version-py3-none-any.whl"
-$whlFile = "dist/toolbox51-0.0.1.dev13-py3-none-any.whl"
+$whlFile = "dist/toolbox51-0.0.1.dev15-py3-none-any.whl"
 # Write-Host $version
 
 # # 检查文件是否存在

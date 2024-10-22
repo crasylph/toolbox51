@@ -8,14 +8,23 @@ def check_logger(name:str) -> bool:
     return name in logger_dict
     
 def new_logger(
-    name:str, 
-    level:int = logging.INFO,
-    use_relative_path:bool = False,
-    use_logfile:bool = False,
+    name: str, 
+    level: int = logging.INFO,
+    use_relative_path: bool = False,
+    use_logfile: bool = False,
+    debug: bool = __debug__,
 ) -> logging.Logger:
     
-    fmt = """ \
+    if(debug):
+        print("开发者模式，启用绝对路径选项，隐藏logger名")
+        fmt = """ \
 %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
+"""
+    else:
+        print("生产模式，仅用绝对路径选项，显示logger名（用于加载时间戳）")
+        use_relative_path = True
+        fmt = """ \
+%(name)s | %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
 """
     datefmt = "%Y-%m-%d %H:%M:%S"
     
@@ -49,10 +58,11 @@ def touch_logger(
     level:int = logging.INFO,
     use_relative_path:bool = False,
     use_logfile:bool = False,
+    debug: bool = __debug__,
 ) -> logging.Logger:
     if(check_logger(name)):
         return logging.getLogger(name)
     else:
-        return new_logger(name, level, use_relative_path, use_logfile)
+        return new_logger(name, level, use_relative_path, use_logfile, debug)
     
-    
+# def drop_logger(name:str):

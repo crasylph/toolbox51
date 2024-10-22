@@ -12,7 +12,7 @@ class LoggerTests(unittest.TestCase):
     
     def test_default_logger(self):
         """默认logger测试"""
-        from toolbox51.logger import touch_logger, DEBUG
+        from toolbox51 import touch_logger, DEBUG
         logger = touch_logger("GLOBAL", level=DEBUG)
         logger.debug("debug message")
         logger.info("info message")
@@ -20,11 +20,12 @@ class LoggerTests(unittest.TestCase):
         logger.error("error message")
         logger.critical("critical message")
         
-    # def test_logger_relative(self):
-    #     """logger_relative测试"""
-    #     from toolbox51.logger import logger_relative as logger
-    #     logger.debug("debug message")
-    #     logger.info("info message")
-    #     logger.warning("warning message")
-    #     logger.error("error message")
-    #     logger.critical("critical message")
+    def test_logger_release(self):
+        """release模式下logger测试"""
+        from toolbox51 import touch_logger, DEBUG
+        logger = touch_logger("GLOBAL", level=DEBUG, debug=False)
+        logger.debug("debug message")
+        logger.info("info message")
+        logger.warning("warning message")
+        logger.error("error message")
+        logger.critical("critical message")
