@@ -3,8 +3,8 @@ from logging import Logger
 from typing import Any, TypedDict
 from time import time
 
-from toolbox51 import SingletonMeta
-from toolbox51 import touch_logger, DEBUG, INFO
+from ..singleton import SingletonMeta
+from ..logging import touch_logger, DEBUG, INFO
 
 
 
