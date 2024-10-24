@@ -4,3 +4,5 @@ r"""
 
 from .loggers import check_logger, get_logger, new_logger, touch_logger
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+logger = touch_logger("GLOBAL", DEBUG)

@@ -39,3 +39,5 @@ version = {attr = "toolbox51.__version__"}
 [tool.pyright]
 # 设置需要进行类型检查的代码目录
 include = ["src", "tests"]
+
+

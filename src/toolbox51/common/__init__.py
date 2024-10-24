@@ -2,10 +2,22 @@
 
 __all__ = []
 
-__all__ += ["check_logger", "get_logger", "new_logger", "touch_logger", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+__all__ += [
+    "check_logger", "get_logger", "new_logger", "touch_logger", 
+    "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL", 
+]
 from .logging import (
     check_logger, get_logger, new_logger, touch_logger,
     DEBUG, INFO, WARNING, ERROR, CRITICAL,
+)
+
+__all__ += [
+    "LoggerManager",
+    "logger",
+]
+from .logger_manager import (
+    LoggerManager,
+    logger,
 )
 
 __all__ += ["TaskManager", "Task"]

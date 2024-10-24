@@ -3,10 +3,12 @@ r"""
 """
 
 
-__version__ = "0.0.1.dev16"
+__version__ = "0.0.1.dev24"
 
 __changelog__ = """\
 ## update history
+- 0.0.1.dev18
+    - (new)logger_manager
 - 0.0.1.dev15
     - (new)task_manager
 - 0.0.1.dev6

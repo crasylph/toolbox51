@@ -16,12 +16,10 @@ def new_logger(
 ) -> logging.Logger:
     
     if(debug):
-        print("开发者模式，启用绝对路径选项，隐藏logger名")
         fmt = """ \
 %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
 """
     else:
-        print("生产模式，仅用绝对路径选项，显示logger名（用于加载时间戳）")
         use_relative_path = True
         fmt = """ \
 %(name)s | %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
@@ -30,7 +28,8 @@ def new_logger(
     
 
     logger = logging.getLogger(name)
-    # logger.handlers.clear()
+    logger.handlers.clear()
+    logger.propagate = False # 禁止向上传播，屏蔽掉父类的日志记录
     logger.setLevel(level)
     if(use_logfile):
         logger.addHandler(get_logfile_handler(

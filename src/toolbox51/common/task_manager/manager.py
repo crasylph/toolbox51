@@ -74,11 +74,25 @@ class TaskManager(metaclass=SingletonMeta):
         
     # logger相关
         
+    # @property
+    # def current_name(self) -> str:
+    #     current_task = asyncio.current_task()
+    #     current_name = current_task.get_name() if current_task else "GLOBAL"
+    #     return current_name
+    
     @property
     def current_name(self) -> str:
-        current_task = asyncio.current_task()
-        current_name = current_task.get_name() if current_task else "GLOBAL"
+        try:
+            current_task = asyncio.current_task()
+            current_name = current_task.get_name() if current_task else "GLOBAL"
+            if(current_name not in self.task_map):
+                self.logger.debug(f"当前任务{current_name}未注册，使用全局记录器。")
+                current_name = "GLOBAL"
+        except RuntimeError:
+            # 如果不在协程或没有事件循环，返回 "GLOBAL"
+            current_name = "GLOBAL"
         return current_name
+
     
     @property
     def current_logger(self) -> logging.Logger:
