@@ -18,9 +18,37 @@
         {
             "label": "wheel",
             "type": "shell",
-            "command": "bash scripts/wheel.sh",
+            "command": "bash",
+            "args": [
+                "scripts/wheel.sh",
+                "${workspaceFolderBasename}",
+            ],            
             "windows": {
-                "command": "powershell scripts/wheel.ps1"
+                "command": "powershell",
+                "args": [
+                    "scripts/wheel.ps1",
+                    "${workspaceFolderBasename}",
+                ],            
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "twine",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "scripts/twine.sh",
+                "${workspaceFolderBasename}",
+            ],            
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "scripts/twine.ps1",
+                    "${workspaceFolderBasename}",
+                ],            
             },
             "group": {
                 "kind": "none",
