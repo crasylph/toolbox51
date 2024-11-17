@@ -1,3 +1,6 @@
+# ruff: noqa: F401 - imported but unused
+# ruff: noqa: E402 - module level import not at top of file
+
 __all__ = ["id_uint"]
 
 from typing import Annotated
