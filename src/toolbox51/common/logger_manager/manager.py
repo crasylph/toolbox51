@@ -11,25 +11,32 @@ from ..logging import touch_logger
 
 class LoggerManager(metaclass=SingletonMeta):
     
+    default_level: int
     record: dict[str, float] = {}
     logger: logging.Logger
+    secondary_logger: logging.Logger
     
-    def __init__(self):
-        self.logger = touch_logger("GLOBAL", level=logging.DEBUG)
+    def __init__(self, default_level:int = logging.DEBUG) -> None:
+        self.default_level = default_level
+        self.logger = touch_logger("GLOBAL", level=self.default_level)
+        self.secondary_logger = touch_logger("SECONDARY", level=self.default_level)
+        
+    def set_default_level(self, level: int) -> None:
+        self.default_level = level
+        self.logger.setLevel(level)
+        self.secondary_logger.setLevel(level)
 
     def register(self, name:str) -> logging.Logger:
         self.record[name] = now_time = time.time()
         
         # 清除长期不用的logger
-        to_delete = [k for k, v in self.record.items() if now_time - v < 600]
+        to_delete = [k for k, v in self.record.items() if now_time - v > 600]
         for item in to_delete:
             self.unregister(item)
         
+        return touch_logger(name, level=self.default_level)
         
-        # self.logger.debug(f"注册记录器{name}。")
-        return touch_logger(name, level=logging.DEBUG)
-        
-    def unregister(self, name:str):
+    def unregister(self, name:str) -> None:
         self.record.pop(name)
         try:
             logger = touch_logger(name)
@@ -39,10 +46,8 @@ class LoggerManager(metaclass=SingletonMeta):
                 handler.close()
             if logger.name in logging.Logger.manager.loggerDict:
                 logging.Logger.manager.loggerDict.pop(logger.name)
-        except Exception as e:
-            # self.logger.debug(f"注销{name}记录器失败：{e}")
+        except Exception:
             pass
-        # self.logger.debug(f"注销志记录器{name}。")
     
     @property
     def current_logger(self) -> logging.Logger:
@@ -56,25 +61,26 @@ class LoggerManager(metaclass=SingletonMeta):
             return touch_logger(name=current_name)
         except RuntimeError:
             return self.logger
-        return self.logger
+        except Exception:
+            return self.secondary_logger
     
-    def debug(self, msg:object):
+    def debug(self, msg:object) -> None:
         msg_s = self._obj2str(msg)
         self.current_logger.debug(msg_s, stacklevel=2)
     
-    def info(self, msg:object):
+    def info(self, msg:object) -> None:
         msg_s = self._obj2str(msg)
         self.current_logger.info(msg_s, stacklevel=2)
     
-    def warning(self, msg:object):
+    def warning(self, msg:object) -> None:
         msg_s = self._obj2str(msg)
         self.current_logger.warning(msg_s, stacklevel=2)
     
-    def error(self, msg:object):
+    def error(self, msg:object) -> None:
         msg_s = self._obj2str(msg)
         self.current_logger.error(msg_s, stacklevel=2)
     
-    def critical(self, msg:object):
+    def critical(self, msg:object) -> None:
         msg_s = self._obj2str(msg)
         self.current_logger.critical(msg_s, stacklevel=2)
     

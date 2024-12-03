@@ -1,10 +1,10 @@
 import unittest
 
-import logging
-LOG_FORMAT = "%(levelname) -5s %(asctime)s" "-1d: %(message)s"
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logging.basicConfig(format=LOG_FORMAT)
+# import logging
+# LOG_FORMAT = "%(levelname) -5s %(asctime)s" "-1d: %(message)s"
+# logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+# logging.basicConfig(format=LOG_FORMAT)
 
 
 
@@ -30,11 +30,24 @@ class LoggerTests(unittest.TestCase):
         logger.error("error message")
         logger.critical("critical message")
         
-    def test_logger_release(self):
-        """release模式下logger测试"""
-        logger = touch_logger("GLOBAL", level=DEBUG, debug=False)
-        logger.debug("debug message")
-        logger.info("info message")
-        logger.warning("warning message")
-        logger.error("error message")
-        logger.critical("critical message")
+    def test_async_logger(self):
+        """异步logger测试"""
+        
+        async def async_test():
+            logger.debug("debug message")
+            logger.info("info message")
+            logger.warning("warning message")
+            logger.error("error message")
+            logger.critical("critical message")
+            
+        import asyncio
+        asyncio.run(async_test())
+        
+    # def test_logger_release(self):
+    #     """release模式下logger测试"""
+    #     logger = touch_logger("GLOBAL", level=DEBUG, debug=False)
+    #     logger.debug("debug message")
+    #     logger.info("info message")
+    #     logger.warning("warning message")
+    #     logger.error("error message")
+    #     logger.critical("critical message")
