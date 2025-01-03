@@ -22,6 +22,16 @@ class LoggerTests(unittest.TestCase):
     def tearDownClass(cls):
         pass
     
+    def test_logger_stacklevel(self):
+        def test_func():
+            logger.debug("debug message", stacklevel=2)
+            logger.info("info message", stacklevel=2)
+            logger.warning("warning message", stacklevel=2)
+            logger.error("error message", stacklevel=2)
+            logger.critical("critical message", stacklevel=2)
+            
+        test_func()
+    
     def test_default_logger(self):
         """默认logger测试"""
         logger.debug("debug message")

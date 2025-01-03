@@ -3,13 +3,14 @@ r"""
 """
 
 
-__version__ = "0.0.1.dev25"
+__version__ = "0.0.1.dev26"
 
 __changelog__ = """\
 ## update history
 - 0.0.1
     - [new] common.logging
     - [new] common.logger_manager
+    - [new] common.context_managers.timer
 """
 
 ####################################

@@ -20,15 +20,11 @@ from .logger_manager import (
     logger,
 )
 
-__all__ += ["TaskManager", "Task"]
-from .task_manager import (
-    TaskManager, Task,
-)
-
-__all__ += ["str_fmt_type", "timestamp_formatter"]
-from .string_formatters import (
-    str_fmt_type,
-    timestamp_formatter,
+__all__ += [
+    "ContextTimer",
+]
+from .context_managers import (
+    ContextTimer,
 )
 
 __all__ += ["Singleton", "SingletonMeta"]
@@ -39,4 +35,17 @@ from .singleton import (
 __all__ += ["id_uint"]
 from .schemas import (
     id_uint, 
+)
+
+# ---
+
+__all__ += ["TaskManager", "Task"]
+from .task_manager import (
+    TaskManager, Task,
+)
+
+__all__ += ["str_fmt_type", "timestamp_formatter"]
+from .string_formatters import (
+    str_fmt_type,
+    timestamp_formatter,
 )

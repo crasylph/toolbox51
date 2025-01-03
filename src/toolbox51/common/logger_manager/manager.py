@@ -64,27 +64,27 @@ class LoggerManager(metaclass=SingletonMeta):
         except Exception:
             return self.secondary_logger
     
-    def debug(self, msg:object) -> None:
+    def debug(self, msg: object, stacklevel: int = 1) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.debug(msg_s, stacklevel=2)
+        self.current_logger.debug(msg_s, stacklevel=stacklevel+1)
     
-    def info(self, msg:object) -> None:
+    def info(self, msg: object, stacklevel: int = 1) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.info(msg_s, stacklevel=2)
+        self.current_logger.info(msg_s, stacklevel=stacklevel+1)
     
-    def warning(self, msg:object) -> None:
+    def warning(self, msg: object, stacklevel: int = 1) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.warning(msg_s, stacklevel=2)
+        self.current_logger.warning(msg_s, stacklevel=stacklevel+1)
     
-    def error(self, msg:object) -> None:
+    def error(self, msg: object, stacklevel: int = 1) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.error(msg_s, stacklevel=2)
+        self.current_logger.error(msg_s, stacklevel=stacklevel+1)
     
-    def critical(self, msg:object) -> None:
+    def critical(self, msg: object, stacklevel: int = 1) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.critical(msg_s, stacklevel=2)
+        self.current_logger.critical(msg_s, stacklevel=stacklevel+1)
     
-    def _obj2str(self, obj:object) -> str:
+    def _obj2str(self, obj:object, stacklevel: int = 1) -> str:
         match obj:
             case str():
                 return obj
