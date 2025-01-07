@@ -18,6 +18,7 @@ class Filter(logging.Filter):
         record.levelname = f"{record.levelname: <8}"
         if(self.cwd and record.pathname.startswith(self.cwd)):
             record.pathname = record.pathname.replace(self.cwd, ".")
+        # record.pathname = record.pathname.replace("\\", "/")
         record.locate = Colors.format(f"{record.pathname}:{record.lineno}", Colors.LOCATE)
         record.funcName = Colors.format(record.funcName, Colors.FUNC_NAME)
         match record.levelno:

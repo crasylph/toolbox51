@@ -1,4 +1,4 @@
-
+# ruff: noqa: E402 - Module level import not at top of file
 
 
 import asyncio
@@ -6,25 +6,37 @@ import logging
 import time
 
 from ..singleton import SingletonMeta
-from ..logging import touch_logger
+from ..logging import touch_logger, new_logger
 
 
 class LoggerManager(metaclass=SingletonMeta):
     
     default_level: int
+    use_relative_path: bool
     record: dict[str, float] = {}
     logger: logging.Logger
     secondary_logger: logging.Logger
     
-    def __init__(self, default_level:int = logging.DEBUG) -> None:
+    def __init__(self, default_level:int = logging.DEBUG, use_relative_path:bool = False) -> None:
         self.default_level = default_level
-        self.logger = touch_logger("GLOBAL", level=self.default_level)
-        self.secondary_logger = touch_logger("SECONDARY", level=self.default_level)
+        self.use_relative_path = use_relative_path
+        self.logger = new_logger("MANAGER_GLOBAL", level=self.default_level, use_relative_path=use_relative_path)
+        self.secondary_logger = new_logger("MANAGER_SECONDARY", level=self.default_level, use_relative_path=use_relative_path)
         
     def set_default_level(self, level: int) -> None:
         self.default_level = level
         self.logger.setLevel(level)
         self.secondary_logger.setLevel(level)
+        
+    def use_relative_path_on(self) -> None:
+        self.use_relative_path = True
+        self.logger = new_logger("MANAGER_GLOBAL", level=self.default_level, use_relative_path=True)
+        self.secondary_logger = new_logger("MANAGER_SECONDARY", level=self.default_level, use_relative_path=True)
+        
+    def use_relative_path_off(self) -> None:
+        self.use_relative_path = False
+        self.logger = new_logger("MANAGER_GLOBAL", level=self.default_level, use_relative_path=False)
+        self.secondary_logger = new_logger("MANAGER_SECONDARY", level=self.default_level, use_relative_path=False)
 
     def register(self, name:str) -> logging.Logger:
         self.record[name] = now_time = time.time()
@@ -34,7 +46,7 @@ class LoggerManager(metaclass=SingletonMeta):
         for item in to_delete:
             self.unregister(item)
         
-        return touch_logger(name, level=self.default_level)
+        return touch_logger(name, level=self.default_level, use_relative_path=self.use_relative_path)
         
     def unregister(self, name:str) -> None:
         self.record.pop(name)
@@ -53,7 +65,7 @@ class LoggerManager(metaclass=SingletonMeta):
     def current_logger(self) -> logging.Logger:
         try:
             current_task = asyncio.current_task()
-            current_name = current_task.get_name() if current_task else "GLOBAL"
+            current_name = current_task.get_name() if current_task else "MANAGER_GLOBAL"
             if(current_name not in self.record):
                 logger = self.register(current_name)
                 return logger
@@ -93,4 +105,10 @@ class LoggerManager(metaclass=SingletonMeta):
             case _:
                 return str(obj)
             
-logger = LoggerManager()
+from ..utils import inspect_stack_check
+
+if(inspect_stack_check(["unittest", "pytest"])):
+    logger = LoggerManager(use_relative_path=False)
+    logger.debug("在测试模式中启用")
+else:
+    logger = LoggerManager(use_relative_path=True)

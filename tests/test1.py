@@ -1,10 +1,5 @@
 
+from toolbox51 import logger
 
 
-d = {1:1,2:2,3:3,4:4}
-
-
-for k,v in d.items():
-    if(k == 2):
-        d.pop(k)
-        break
+logger.info(111)

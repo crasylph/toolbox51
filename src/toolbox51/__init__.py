@@ -3,7 +3,7 @@ r"""
 """
 
 
-__version__ = "0.0.1.dev26"
+__version__ = "0.0.1.dev27"
 
 __changelog__ = """\
 ## update history

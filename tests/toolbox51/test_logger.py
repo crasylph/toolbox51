@@ -9,6 +9,7 @@ import unittest
 
 
 from toolbox51.common.logger_manager import logger
+logger.use_relative_path_off()
 # from toolbox51 import touch_logger, DEBUG
 # logger = touch_logger("GLOBAL", level=DEBUG)
 

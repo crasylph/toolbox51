@@ -17,6 +17,7 @@ class Filter(logging.Filter):
         record.levelname = f"{record.levelname: <8}"
         if(self.cwd and record.pathname.startswith(self.cwd)):
             record.pathname = record.pathname.replace(self.cwd, ".")
+        # record.pathname = record.pathname.replace("\\", "/")
         record.locate = f"{record.pathname}:{record.lineno}"
         record.funcName = record.funcName
         match record.levelno:
