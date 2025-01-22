@@ -27,6 +27,13 @@ from .context_managers import (
     ContextTimer,
 )
 
+__all__ += [
+    "func_logger",
+]
+from .decorators import (
+    func_logger,
+)
+
 __all__ += ["Singleton", "SingletonMeta"]
 from .singleton import (
     Singleton, SingletonMeta,

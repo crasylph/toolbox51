@@ -56,8 +56,8 @@ class LoggerManager(metaclass=SingletonMeta):
             for handler in handlers:
                 logger.removeHandler(handler)
                 handler.close()
-            if logger.name in logging.Logger.manager.loggerDict:
-                logging.Logger.manager.loggerDict.pop(logger.name)
+            logger.name in logging.Logger.manager.loggerDict and\
+                logging.Logger.manager.loggerDict.pop(logger.name) # type: ignore
         except Exception:
             pass
     
@@ -96,8 +96,10 @@ class LoggerManager(metaclass=SingletonMeta):
         msg_s = self._obj2str(msg)
         self.current_logger.critical(msg_s, stacklevel=stacklevel+1)
     
-    def _obj2str(self, obj:object, stacklevel: int = 1) -> str:
+    def _obj2str(self, obj:object) -> str:
         match obj:
+            case list():
+                return " ".join([self._obj2str(x) for x in obj])
             case str():
                 return obj
             case int() | float() | bool():

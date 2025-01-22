@@ -3,7 +3,7 @@ r"""
 """
 
 
-__version__ = "0.0.1.dev27"
+__version__ = "0.0.1.dev28"
 
 __changelog__ = """\
 ## update history
@@ -11,6 +11,7 @@ __changelog__ = """\
     - [new] common.logging
     - [new] common.logger_manager
     - [new] common.context_managers.timer
+    - [new] common.decorators.func_logger
 """
 
 ####################################

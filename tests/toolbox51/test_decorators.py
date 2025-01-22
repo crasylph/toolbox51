@@ -8,7 +8,7 @@ import unittest
 
 
 
-from toolbox51 import ContextTimer, logger
+from toolbox51 import logger, func_logger
 # from toolbox51 import touch_logger, DEBUG
 # logger = touch_logger("GLOBAL", level=DEBUG)
 
@@ -22,12 +22,13 @@ class LoggerTests(unittest.TestCase):
     def tearDownClass(cls):
         pass
     
-    def test_context_timer(self):
-        with ContextTimer("test_timer", log_mode="print", time_mode="seconds"):
-            a = 0
-            for i in range(1000000):
-                a += 1
-                
-                
-        with ContextTimer("test_logger"):
-            logger.info("test_logger")
+    def test_func_logger(self):
+        
+        @func_logger
+        def this_func(x, y):
+            """test"""
+            print(x+y)
+            # raise ValueError("test")
+            
+        print(this_func)
+        this_func(1,2)
