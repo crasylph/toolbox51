@@ -2,13 +2,18 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
+from ..utils import Colors, normalize_path
 
 class Filter(logging.Filter):
     cwd:str|None
+    home:str
     
     def __init__(self, use_relative_path:bool = False, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.cwd = str(Path.cwd()).replace(str(Path.home()), "~") if(use_relative_path) else None
+        cwd = normalize_path(Path.cwd())
+        home = normalize_path(Path.home())
+        self.cwd = str(cwd) if(use_relative_path) else None
+        self.home = str(home)
 
     def filter(self, record: logging.LogRecord) -> bool:
         # print(record)
@@ -17,6 +22,8 @@ class Filter(logging.Filter):
         record.levelname = f"{record.levelname: <8}"
         if(self.cwd and record.pathname.startswith(self.cwd)):
             record.pathname = record.pathname.replace(self.cwd, ".")
+        else:
+            record.pathname = record.pathname.replace(self.home, "~")
         # record.pathname = record.pathname.replace("\\", "/")
         record.locate = f"{record.pathname}:{record.lineno}"
         record.funcName = record.funcName

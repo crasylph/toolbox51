@@ -35,7 +35,6 @@ class LoggerTests(unittest.TestCase):
     
     def test_default_logger(self):
         """默认logger测试"""
-        from pathlib import Path
         logger.debug("debug message")
         logger.info("info message")
         logger.warning("warning message")

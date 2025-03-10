@@ -20,7 +20,7 @@ class Filter(logging.Filter):
         # print(record.__dict__)
         record._msecs = Colors.format(f".{int(record.msecs):03d}", Colors.TIME)
         record.levelname = f"{record.levelname: <8}"
-        if self.cwd:
+        if(self.cwd and record.pathname.startswith(self.cwd)):
             record.pathname = record.pathname.replace(self.cwd, ".")
         else:
             record.pathname = record.pathname.replace(self.home, "~")
