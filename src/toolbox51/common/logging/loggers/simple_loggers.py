@@ -17,7 +17,7 @@ def new_logger(
     
     if(debug):
         fmt = """ \
-%(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
+%(name)s | %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
 """
     else:
         use_relative_path = True

@@ -53,7 +53,7 @@ class LoggerTests(unittest.TestCase):
             
         import asyncio
         asyncio.run(async_test())
-        
+        asyncio.run(async_test())
     # def test_logger_release(self):
     #     """release模式下logger测试"""
     #     logger = touch_logger("GLOBAL", level=DEBUG, debug=False)
