@@ -65,7 +65,7 @@ class LoggerManager(metaclass=SingletonMeta):
     def current_logger(self) -> logging.Logger:
         try:
             current_task = asyncio.current_task()
-            current_name = current_task.get_name() if current_task else "MANAGER_GLOBAL"
+            current_name = str(id(current_task)) if current_task else "MANAGER_GLOBAL"
             if(current_name not in self.record):
                 logger = self.register(current_name)
                 return logger
