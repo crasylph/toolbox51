@@ -8,7 +8,7 @@ class Filter(logging.Filter):
     
     def __init__(self, use_relative_path:bool = False, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.cwd = str(Path.cwd()) if(use_relative_path) else None
+        self.cwd = str(Path.cwd()).replace(str(Path.home()), "~") if(use_relative_path) else None
 
     def filter(self, record: logging.LogRecord) -> bool:
         # print(record)
