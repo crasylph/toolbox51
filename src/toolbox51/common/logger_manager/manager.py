@@ -13,15 +13,21 @@ class LoggerManager(metaclass=SingletonMeta):
     
     default_level: int
     use_relative_path: bool
-    record: dict[str, float] = {}
     logger: logging.Logger
     secondary_logger: logging.Logger
     
-    def __init__(self, default_level:int = logging.DEBUG, use_relative_path:bool = False) -> None:
+    lifetime: int = 600
+    delete_time: dict[str, float] = {}
+    check_time: float
+    
+    def __init__(self, default_level:int = logging.DEBUG, use_relative_path:bool = False, lifetime:int = 60) -> None:
         self.default_level = default_level
         self.use_relative_path = use_relative_path
         self.logger = new_logger("MANAGER_GLOBAL", level=self.default_level, use_relative_path=use_relative_path)
         self.secondary_logger = new_logger("MANAGER_SECONDARY", level=self.default_level, use_relative_path=use_relative_path)
+        
+        self.lifetime = lifetime
+        self.check_time = time.time() + self.lifetime
         
     def set_default_level(self, level: int) -> None:
         self.default_level = level
@@ -39,17 +45,20 @@ class LoggerManager(metaclass=SingletonMeta):
         self.secondary_logger = new_logger("MANAGER_SECONDARY", level=self.default_level, use_relative_path=False)
 
     def register(self, name:str) -> logging.Logger:
-        self.record[name] = now_time = time.time()
-        
-        # 清除长期不用的logger
-        to_delete = [k for k, v in self.record.items() if now_time - v > 600]
-        for item in to_delete:
-            self.unregister(item)
-        
+        self.delete_time[name] = (now_time := time.time()) + self.lifetime
+        self.logger.debug(f"为新协程注册logger: {name}")
+        if self.check_time < now_time:
+            self.check_time = now_time + self.lifetime
+            # 清除长期不用的logger
+            to_delete = [k for k, v in self.delete_time.items() if v < now_time]
+            self.logger.debug(f"清除长期停用的logger: {to_delete}")
+            for item in to_delete:
+                self.unregister(item)
+            self.logger.debug(f"现有logger: {self.delete_time.keys()}")
         return touch_logger(name, level=self.default_level, use_relative_path=self.use_relative_path)
         
     def unregister(self, name:str) -> None:
-        self.record.pop(name)
+        self.delete_time.pop(name)
         try:
             logger = touch_logger(name)
             handlers = logger.handlers[:]
@@ -66,10 +75,10 @@ class LoggerManager(metaclass=SingletonMeta):
         try:
             current_task = asyncio.current_task()
             current_name = str(id(current_task)) if current_task else "MANAGER_GLOBAL"
-            if(current_name not in self.record):
+            if(current_name not in self.delete_time):
                 logger = self.register(current_name)
                 return logger
-            self.record[current_name] = time.time()
+            self.delete_time[current_name] = time.time() + self.lifetime
             return touch_logger(name=current_name)
         except RuntimeError:
             return self.logger
