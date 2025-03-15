@@ -31,4 +31,4 @@ if (-not (Test-Path -Path $WheelPath)) {
 
 
 # 上传到PyPI
-twine upload $WheelPath
+python -m twine upload $WheelPath
