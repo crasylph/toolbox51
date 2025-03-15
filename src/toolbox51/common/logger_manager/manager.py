@@ -85,29 +85,50 @@ class LoggerManager(metaclass=SingletonMeta):
         except Exception:
             return self.secondary_logger
     
-    def debug(self, msg: object, stacklevel: int = 1) -> None:
+    def debug(self, msg: object, *args, stacklevel: int = 1, **kwargs) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.debug(msg_s, stacklevel=stacklevel+1)
+        self.current_logger.debug(
+            msg_s, *args, 
+            stacklevel=stacklevel+1, 
+            **kwargs,
+        )
     
-    def info(self, msg: object, stacklevel: int = 1) -> None:
+    def info(self, msg: object, *args, stacklevel: int = 1, **kwargs) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.info(msg_s, stacklevel=stacklevel+1)
+        self.current_logger.info(
+            msg_s, *args, 
+            stacklevel=stacklevel+1, 
+            **kwargs,
+        )
     
-    def warning(self, msg: object, stacklevel: int = 1) -> None:
+    def warning(self, msg: object, *args, stacklevel: int = 1, **kwargs) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.warning(msg_s, stacklevel=stacklevel+1)
+        self.current_logger.warning(
+            msg_s, *args, 
+            stacklevel=stacklevel+1, 
+            **kwargs,
+        )
     
-    def error(self, msg: object, stacklevel: int = 1) -> None:
+    def error(self, msg: object, *args, stacklevel: int = 1, **kwargs) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.error(msg_s, stacklevel=stacklevel+1)
+        self.current_logger.error(
+            msg_s, *args, 
+            stacklevel=stacklevel+1, 
+            **kwargs,
+        )
     
-    def critical(self, msg: object, stacklevel: int = 1) -> None:
+    def critical(self, msg: object, *args, stacklevel: int = 1, **kwargs) -> None:
         msg_s = self._obj2str(msg)
-        self.current_logger.critical(msg_s, stacklevel=stacklevel+1)
+        self.current_logger.critical(
+            msg_s, *args, 
+            stacklevel=stacklevel+1, 
+            **kwargs,
+        )
     
     def _obj2str(self, obj:object) -> str:
         match obj:
             case list():
+                return str(obj)
                 return " ".join([self._obj2str(x) for x in obj])
             case str():
                 return obj

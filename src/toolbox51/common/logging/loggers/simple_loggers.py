@@ -9,21 +9,31 @@ def check_logger(name:str) -> bool:
     
 def new_logger(
     name: str, 
+    debug: bool = __debug__, auto_config: bool = False,
+    # ---
     level: int = logging.INFO,
     use_relative_path: bool = False,
-    use_logfile: bool = False,
-    debug: bool = __debug__,
+    use_logfile: bool = False, logfile_path: str|Path|None = None,
+    log_task_id: bool = True,
 ) -> logging.Logger:
     
-    if(debug):
-        fmt = """ \
-%(name)s | %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
-"""
-    else:
+    if auto_config:
+        level = logging.DEBUG if debug else logging.INFO
         use_relative_path = True
-        fmt = """ \
-%(name)s | %(asctime)s%(_msecs)s | %(levelname)s | %(locate)s | %(funcName)s - %(message)s \
-"""
+        use_logfile = False
+        log_task_id = True
+        
+    fmt_prefix_items: list[str] = []
+    if log_task_id:
+        fmt_prefix_items.append("%(_task_id)s")
+    fmt_prefix = " | ".join(fmt_prefix_items)
+    fmt_content_items: list[str] = []
+    fmt_content_items.append("%(asctime)s%(_msecs)s")
+    fmt_content_items.append("%(levelname)s")
+    fmt_content_items.append("%(_locate)s")
+    fmt_content_items.append("%(funcName)s - %(message)s")
+    fmt_content = " | ".join(fmt_content_items)
+    fmt = f"{fmt_prefix}{fmt_content}"
     datefmt = "%Y-%m-%d %H:%M:%S"
     
 
@@ -37,12 +47,15 @@ def new_logger(
             fmt = fmt,
             datefmt = datefmt,
             use_relative_path = use_relative_path,
+            log_task_id = log_task_id,
+            logfile_path = logfile_path,
         ))
     logger.addHandler(get_console_handler(
         level = level,
         fmt = fmt,
         datefmt = datefmt,
         use_relative_path = use_relative_path,
+        log_task_id = log_task_id,
     ))
     return logger
 
@@ -53,15 +66,17 @@ def get_logger(name:str):
         return new_logger(name)
 
 def touch_logger(
-    name:str, 
-    level:int = logging.INFO,
-    use_relative_path:bool = False,
-    use_logfile:bool = False,
-    debug: bool = __debug__,
+    name: str, 
+    debug: bool = __debug__, auto_config: bool = False,
+    # ---
+    level: int = logging.INFO,
+    use_relative_path: bool = False,
+    use_logfile: bool = False, logfile_path: str|Path|None = None,
+    log_task_id: bool = True,
 ) -> logging.Logger:
     if(check_logger(name)):
         return logging.getLogger(name)
     else:
-        return new_logger(name, level, use_relative_path, use_logfile, debug)
+        return new_logger(name, debug, auto_config, level, use_relative_path, use_logfile, logfile_path, log_task_id)
     
 # def drop_logger(name:str):

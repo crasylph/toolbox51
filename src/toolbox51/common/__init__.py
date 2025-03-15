@@ -5,19 +5,19 @@ __all__ = []
 __all__ += [
     "check_logger", "get_logger", "new_logger", "touch_logger", 
     "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL", 
+    "logger",
 ]
 from .logging import (
     check_logger, get_logger, new_logger, touch_logger,
     DEBUG, INFO, WARNING, ERROR, CRITICAL,
+    logger,
 )
 
 __all__ += [
     "LoggerManager",
-    "logger",
 ]
 from .logger_manager import (
     LoggerManager,
-    logger,
 )
 
 __all__ += [

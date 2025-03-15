@@ -54,6 +54,7 @@ class Colors(Enum):
     LOCATE = CYAN
     TIME = GREEN
     FUNC_NAME = WHITE
+    TASK_ID = WHITE
     
     @classmethod
     def format(cls, text, color=None):
